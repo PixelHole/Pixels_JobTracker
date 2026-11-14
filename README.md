@@ -2,6 +2,10 @@
 
 A small Django app for tracking internship and job applications. Each user has a private list of applications that move through statuses (wishlist, applied, interview, offer, rejected).
 
+## Live Demo
+Checkout the live application demo here:
+[Live demo on railway](pixelsjobtracker-production.up.railway.app)
+
 ## Features
 
 - Sign up, log in and log out (Django's built-in auth)
