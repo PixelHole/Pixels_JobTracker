@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{% if object %}Edit{% else %}New{% endif %} application · Job Tracker{% endblock %}
+{% block content %}
+<div class="card" style="max-width:560px;margin:0 auto">
+  <h2>{% if object %}Edit application{% else %}New application{% endif %}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Save</button>
+    <a class="btn secondary" href="{% url 'application-list' %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

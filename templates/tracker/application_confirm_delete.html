@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Delete application · Job Tracker{% endblock %}
+{% block content %}
+<div class="card" style="max-width:480px;margin:0 auto">
+  <h2>Delete application?</h2>
+  <p>This will permanently delete <b>{{ object }}</b>.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn danger" type="submit">Yes, delete</button>
+    <a class="btn secondary" href="{% url 'application-list' %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

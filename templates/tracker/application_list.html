@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="stats">
+  <div class="stat"><b>{{ total }}</b><span>Total</span></div>
+  {% for value, label, count in stats %}
+    <div class="stat"><b>{{ count }}</b><span>{{ label }}</span></div>
+  {% endfor %}
+</div>
+
+<div class="card">
+  <form method="get" class="toolbar">
+    <input type="search" name="q" placeholder="Search company or position" value="{{ query }}">
+    <select name="status">
+      <option value="">All statuses</option>
+      {% for value, label in statuses %}
+        <option value="{{ value }}" {% if value == current_status %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn secondary" type="submit">Filter</button>
+    <a class="btn" href="{% url 'application-create' %}" style="margin-left:auto">+ Add application</a>
+  </form>
+
+  {% if applications %}
+    <table>
+      <thead>
+        <tr><th>Company</th><th>Position</th><th>Status</th><th>Applied</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for app in applications %}
+          <tr>
+            <td>
+              {% if app.job_url %}<a href="{{ app.job_url }}" target="_blank" rel="noopener noreferrer">{{ app.company }}</a>{% else %}{{ app.company }}{% endif %}
+              {% if app.location %}<div class="muted">{{ app.location }}</div>{% endif %}
+            </td>
+            <td>{{ app.position }}</td>
+            <td><span class="badge {{ app.status }}">{{ app.get_status_display }}</span></td>
+            <td>{{ app.applied_date|date:"M j, Y" }}</td>
+            <td style="white-space:nowrap">
+              <a href="{% url 'application-update' app.pk %}">Edit</a> ·
+              <a href="{% url 'application-delete' app.pk %}">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if is_paginated %}
+      <div class="pager">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}&q={{ query|urlencode }}&status={{ current_status|urlencode }}">← Prev</a>
+        {% endif %}
+        <span class="muted">Page {{ page_obj.number }} of {{ paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}&q={{ query|urlencode }}&status={{ current_status|urlencode }}">Next →</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% else %}
+    <p class="muted">No applications found. Add your first one!</p>
+  {% endif %}
+</div>
+{% endblock %}

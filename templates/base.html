@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Job Tracker{% endblock %}</title>
+  <style>
+    :root { --bg:#f6f7f9; --card:#fff; --text:#1c2430; --muted:#667085; --brand:#3b5bdb; --line:#e4e7ec; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+    header { background:var(--card); border-bottom:1px solid var(--line); }
+    .wrap { max-width: 960px; margin:0 auto; padding: 0 16px; }
+    header .wrap { display:flex; justify-content:space-between; align-items:center; height:56px; }
+    header a { color:var(--text); text-decoration:none; margin-left:16px; }
+    header .logo { font-weight:700; margin-left:0; }
+    main { padding: 24px 0 48px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:16px; }
+    .btn { display:inline-block; background:var(--brand); color:#fff; border:0; border-radius:6px; padding:8px 14px; font-size:14px; cursor:pointer; text-decoration:none; }
+    .btn.secondary { background:#fff; color:var(--text); border:1px solid var(--line); }
+    .btn.danger { background:#d92d20; }
+    .stats { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:12px; margin-bottom:16px; }
+    .stat { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 16px; }
+    .stat b { display:block; font-size:24px; }
+    .stat span { color:var(--muted); font-size:13px; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); font-size:14px; vertical-align:top; }
+    th { color:var(--muted); font-weight:600; }
+    .badge { padding:2px 8px; border-radius:999px; font-size:12px; background:#eef2ff; color:#3b5bdb; }
+    .badge.offer { background:#ecfdf3; color:#067647; }
+    .badge.rejected { background:#fef3f2; color:#b42318; }
+    .badge.interview { background:#fffaeb; color:#b54708; }
+    .toolbar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+    input, select, textarea { font:inherit; padding:8px; border:1px solid var(--line); border-radius:6px; width:100%; }
+    .toolbar input, .toolbar select { width:auto; }
+    .messages { list-style:none; padding:0; margin:0 0 16px; }
+    .messages li { background:#ecfdf3; color:#067647; padding:10px 14px; border-radius:6px; }
+    form p { margin: 0 0 14px; }
+    label { display:block; font-weight:600; font-size:14px; margin-bottom:4px; }
+    .errorlist { color:#b42318; list-style:none; padding:0; margin:4px 0; font-size:13px; }
+    .helptext { color:var(--muted); font-size:12px; }
+    .pager { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:16px; }
+    .muted { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a class="logo" href="{% url 'application-list' %}">Job Tracker</a>
+      <nav>
+        {% if user.is_authenticated %}
+          <span class="muted">{{ user.username }}</span>
+          <form method="post" action="{% url 'logout' %}" style="display:inline">
+            {% csrf_token %}
+            <button class="btn secondary" type="submit" style="margin-left:12px">Log out</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}">Log in</a>
+          <a href="{% url 'signup' %}">Sign up</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      {% if messages %}
+        <ul class="messages">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</body>
+</html>
