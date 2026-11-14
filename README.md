@@ -16,6 +16,8 @@ Checkout the live application demo here:
 - Django admin integration
 - Automated tests for auth, isolation, filtering and stats
 
+![Live demo on railway](preview/bandicam%202026-11-15%2000-16-09-049.png)
+
 ## Setup
 
 ```bash
