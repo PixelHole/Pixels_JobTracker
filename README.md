@@ -4,7 +4,7 @@ A small Django app for tracking internship and job applications. Each user has a
 
 ## Live Demo
 Checkout the live application demo here:
-[Live demo on railway](pixelsjobtracker-production.up.railway.app)
+[Live demo on railway](https://pixelsjobtracker-production.up.railway.app)
 
 ## Features
 
